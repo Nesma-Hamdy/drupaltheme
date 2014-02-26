@@ -1,0 +1,5 @@
+name = CACD Web Service Resources
+description = Custom web service resources for CACD (e.g. News and Annoucements)
+core = 7.x
+version = 7.x-0.1-dev
+dependencies[] = services

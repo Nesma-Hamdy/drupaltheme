@@ -1,0 +1,56 @@
+<?php
+/**
+ * Implements HOOK_theme().
+ */
+function us_courts_stock_theme($existing, $type, $theme, $path) {
+  return array(
+      'us_courts_stock_pacer_block' => array(
+        'variables' => array(),
+        'template' => 'us-courts-stock-pacer-block',
+        'path' => drupal_get_path('module', 'us_courts_stock') . '/theme',
+      ),
+      'us_courts_font_resizer_block' => array(
+        'variables' => array(),
+        'template' => 'us-courts-stock-font-resizer-block',
+        'path' => drupal_get_path('module', 'us_courts_stock') . '/theme',
+      ),
+  );
+}
+
+/**
+ * Implements MODULE_block_info().
+ */
+function us_courts_stock_block_info() {
+  $blocks['pacer'] = array(
+    'info' => t('US Courts Stock: Pacer')
+  );
+  $blocks['font_resizer'] = array(
+    'info' => t('US Courts Stock: Font Resizer')
+  );
+  
+  return $blocks;
+}
+
+/**
+ * Implements MODULE_block_view().
+ */
+ 
+function us_courts_stock_block_view($delta = '') {
+  $block = array();
+  
+  switch ($delta) {
+    case 'pacer':
+      $block['content'] = theme('us_courts_stock_pacer_block');
+      break;
+    case 'font_resizer':
+      $block['content'] = theme('us_courts_font_resizer_block');
+      break;
+  }
+  return $block;
+}
+
+function us_courts_stock_preprocess_block(&$vars) {
+ if ($vars['block']->module == 'us_courts_stock' && $vars['block']->delta == 'font_resizer') {
+  $vars['classes_array'][] = 'text-resizer-block';
+  }
+}

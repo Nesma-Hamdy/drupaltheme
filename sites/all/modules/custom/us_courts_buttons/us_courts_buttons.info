@@ -1,0 +1,7 @@
+core = "7.x"
+description = "Helpers for the Custom Block content type and stock buttons"
+
+name = "US Courts Buttons"
+php = "5.2.4"
+project = "us_courts_buttons"
+version = "7.x-1.0"

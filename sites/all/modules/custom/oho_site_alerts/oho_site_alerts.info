@@ -1,0 +1,8 @@
+name = OHO Site Alerts
+description = Enable and disable custom alerts for the front page
+core = 7.x
+
+configure = admin/config/content/oho_site_alerts
+
+php = "5.2.4"
+version = "7.x-1.0"

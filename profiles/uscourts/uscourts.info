@@ -1,0 +1,91 @@
+name = US Courts
+description = US Courts Package
+version = VERSION
+core = 7.x
+
+
+; Core
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+
+; Contrib
+dependencies[] = token
+dependencies[] = pathauto
+dependencies[] = date
+dependencies[] = node_reference
+dependencies[] = conditional_styles
+dependencies[] = ctools
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = custom_search
+dependencies[] = custom_search_blocks
+dependencies[] = strongarm
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = views_ui_basic
+dependencies[] = date_views
+dependencies[] = advanced_help
+dependencies[] = email
+dependencies[] = imce
+dependencies[] = menu_block
+dependencies[] = context_menu_block
+dependencies[] = blocktheme
+dependencies[] = nodeblock
+dependencies[] = clone
+; bug with views right now - http://drupal.org/node/1099792 dependencies[] = page_title
+dependencies[] = ckeditor
+dependencies[] = field_group
+dependencies[] = defaultcontent
+dependencies[] = menu_attributes
+
+; Custom Modules
+dependencies[] = us_courts_stock
+dependencies[] = us_courts_buttons
+dependencies[] = oho_site_alerts
+
+; Features
+dependencies[] = features
+
+dependencies[] = us_courts_custom_buttons
+dependencies[] = us_courts_forms
+dependencies[] = us_courts_news
+dependencies[] = us_courts_faqs
+dependencies[] = us_courts_opinions
+dependencies[] = us_courts_judges
+dependencies[] = us_courts_courts
+dependencies[] = us_courts_local_rules
+dependencies[] = us_courts_general_orders
+dependencies[] = us_courts_hearing_dates
+dependencies[] = us_courts_checklist
+dependencies[] = us_courts_node_block
+dependencies[] = us_courts_sample_content
+
+; This has menu's that exist only after the previous features are enabled
+dependencies[] = us_courts_defaults
+dependencies[] = us_courts_helpers
+
+; Files included with profile
+files[] = uscourts.profile
+
+; Version information
+version = "7.0"
+project = "drupal"
+hidden = TRUE

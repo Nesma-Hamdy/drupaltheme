@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the US Courts Forms feature.
+ */
+
+include_once('us_courts_forms.features.inc');

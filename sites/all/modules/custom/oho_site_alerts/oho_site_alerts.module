@@ -1,0 +1,85 @@
+<?php
+
+/**
+* Implements hook_permission().
+*/
+function oho_site_alerts_permission() {
+  return array(
+    'administer oho site alerts' => array(
+      'title' => t('Administer OHO Alerts'), 
+      'description' => t('Enable, disable and customize alerts for the home page'),
+    ),
+  );
+}
+
+/**
+* Implements hook_menu().
+*/
+function oho_site_alerts_menu() {
+	$items = array(); 
+
+	$items['admin/config/content/oho_site_alerts'] = array(
+		'title' => 'OHO Site Alerts',
+		'description' => 'Configuration for OHO site alerts module',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('oho_site_alerts_form'),
+		'access callback' => 'user_access',
+		'access arguments' => array('administer oho site alerts'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+ 
+	return $items;
+} 
+
+function oho_site_alerts_theme() {
+ return array(
+  'oho_site_alert_message' => array(
+    'variables' => array(),
+    'template' => 'oho-site-alert-message',
+    'path' => drupal_get_path('module', 'oho_site_alerts') . '/theme',
+   ),
+ );
+}
+
+function template_preprocess_oho_site_alert_message(&$vars, $hook){
+ $vars['title'] = filter_xss_admin(variable_get('oho_site_alerts_title'));
+ $vars['content'] = filter_xss_admin(variable_get('oho_site_alerts_content'));
+}
+
+/**
+* Form function, called by drupal_get_form()
+* in current_posts_menu().
+*/
+function oho_site_alerts_form($form, &$form_state){
+  
+	$form['oho_site_alerts_status'] = array(
+		'#type' => 'radios',
+		'#title' => t('Alerts status'),
+		'#default_value' => variable_get('oho_site_alerts_status', ''),
+		'#options' => array( 1 => t('Enabled'), 0 => t('Disabled')),
+	);
+ 
+	$form['oho_site_alerts_title'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Title'),
+		'#default_value' => variable_get('oho_site_alerts_title', ''),
+		'#size' => 60,
+		'#maxlength' => 128,
+	);
+	
+	$form['oho_site_alerts_content' ] = array(
+		'#title' => t('Content'),
+		'#type' => 'textarea' ,
+		'#description' => t('HTML content for the alert'),
+		'#default_value' => variable_get('oho_site_alerts_content', ''),
+	);
+	
+	return system_settings_form($form);
+}
+
+function oho_site_alerts_preprocess_page(&$vars, $hook) {
+	$vars['oho_site_alerts_messages'] = '';
+	if($vars['is_front'] && variable_get('oho_site_alerts_status')) {
+		$vars['oho_site_alerts_messages'] = theme('oho_site_alert_message');
+	}
+}

@@ -1,0 +1,14 @@
+name = "Context Exclude Conditions"
+description = "Provides context conditions with exclusion options"
+core = "7.x"
+package = "McMurry"
+php = "5.3"
+version = "7.x-1.0"
+dependencies[] = "context"
+
+; Information added by drupal.org packaging script on 2013-06-22
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "context_condition_exclusion"
+datestamp = "1371862060"
+

@@ -1,0 +1,2 @@
+#crontab job to run every 5 min
+*/5 * * * * wget http://156.131.20.155/cron.php?cron_key=aG8yA2u7mPkgaRgNaIEJvMbySNTmgDIRXDDCIjXwKAg

@@ -1,0 +1,7 @@
+core = "7.x"
+description = "Stock blocks for the US Courts package"
+
+name = "US Courts Stock Items"
+php = "5.2.4"
+project = "us_courts_stock"
+version = "7.x-1.0"

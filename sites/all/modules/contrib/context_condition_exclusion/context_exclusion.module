@@ -1,0 +1,63 @@
+<?php
+/**
+ * @file
+ * Implement triggers for 404 and 403 pages.
+ */
+
+/**
+ * Implements hook_context_plugins().
+ */
+function context_exclusion_context_plugins() {
+  $plugins = array();
+  $plugins['context_exclusion_context_condition_exclusion'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_exclusion') . '/plugins',
+      'file' => 'context_exclusion_context_conditions.inc',
+      'class' => 'context_exclusion_context_condition_exclusion',
+      'parent' => 'context_condition_path',
+    ),
+  );
+  $plugins['context_exclusion_context_condition_not_nodetype'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_exclusion') . '/plugins',
+      'file' => 'context_exclusion_context_condition_not_nodetype.inc',
+      'class' => 'context_exclusion_context_condition_not_nodetype',
+      'parent' => 'context_condition_node',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ */
+function context_exclusion_context_registry() {
+  return array(
+    'conditions' => array(
+      'exclusion' => array(
+        'title' => t('Node type (with exclusion)'),
+        'description' => t('Allows triggering on node types while excluding (or including) paths'),
+        'plugin' => 'context_exclusion_context_condition_exclusion',
+      ),
+      'not_nodetype' => array(
+        'title' => t('Not node type'),
+        'description' => t('Allows excluding certain node types'),
+        'plugin' => 'context_exclusion_context_condition_not_nodetype',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_context_node_condition_alter().
+ *
+ * @param $node
+ * @param $op
+ */
+function context_exclusion_context_node_condition_alter(&$node, $op) {
+  foreach ( array('exclusion', 'not_nodetype') as $plugin ) {
+    if ( $plugin = context_get_plugin( 'condition', $plugin ) ) {
+      $plugin->execute( $node, $op );
+    }
+  }
+}

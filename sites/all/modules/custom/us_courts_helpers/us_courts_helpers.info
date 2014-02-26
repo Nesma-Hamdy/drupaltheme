@@ -1,0 +1,7 @@
+core = "7.x"
+description = "Various Helper functions and defaults"
+
+name = "US Courts Helpers"
+php = "5.2.4"
+project = "us_courts_helpers"
+version = "7.x-1.0"

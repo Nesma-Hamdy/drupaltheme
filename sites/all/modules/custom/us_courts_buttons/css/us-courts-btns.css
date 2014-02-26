@@ -1,0 +1,64 @@
+a:link.usc-btn,
+a:visited.usc-btn,
+a:hover.usc-btn {
+	color: #333;
+	text-decoration: none;
+}
+
+.usc-btn {
+	font-family: Georgia, serif;
+	font-size: 17px;
+	line-height: 17px;
+	display: block;
+	height: 38px;
+	width: 281px;
+	padding: 5px 10px;
+	background: transparent url("../imgs/btn-bg.png") no-repeat top left;
+}
+
+.usc-btn .usc-btn-icon {
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+	background-color: transparent;
+	background-image: url("../imgs/usc-btns-sprite.png");
+	background-repeat: no-repeat;
+}
+
+/* @group ICONS */
+
+.usc-form-btn .usc-btn-icon {
+ background-position: 0px 0px;
+}
+
+.usc-staff-dir-btn .usc-btn-icon {
+ background-position: 0px -160px;  
+}
+
+.usc-lcl-rules-btn .usc-btn-icon {
+ background-position: 0px -80px;
+}
+
+.usc-understanding-btn .usc-btn-icon {
+ background-position: 0px -40px;
+}
+
+.usc-opinions-btn .usc-btn-icon {
+ background-position: 0px -120px;
+}
+
+/* @end ICONS */
+
+/* TEMP - find a less intrusive way to do this */
+
+#sidebar-second div.block-us-courts-buttons ~ div.block-us-courts-buttons,
+div.block-us-courts-buttons ~ div.block-us-courts-buttons {
+ margin-top: 10px;
+}
+
+#sidebar-second div.block-nodeblock ~ div.block-nodeblock,
+div.block-nodeblock ~ div.block-nodeblock {
+ margin-top: 10px;
+}

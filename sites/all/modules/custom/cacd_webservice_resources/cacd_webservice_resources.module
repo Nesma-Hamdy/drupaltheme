@@ -1,0 +1,150 @@
+<?php
+/**
+ * @file
+ *
+ * Custom web service resources for Jae's SharePoint module.
+ * by Jae H. Park
+ * Created: 8.29.13, Revised: 8.30.13
+ *
+ * Implements hook_services_resources().
+ */
+
+function cacd_webservice_resources_services_resources() {
+ $api = array(
+  'customnode' => array(
+    'retrieve' => array(
+     'help' => 'Retrieve news_announcement type nodes',
+     'callback' => '_cacd_jae_customnode_retrieve',
+     'access callback' => 'user_access',
+     'access arguments' => array('access content'),
+     'access arguments append' => FALSE,
+     'args' => array(
+       array(
+        'name' => 'fn',
+        'type' => 'string',
+        'description' => 'Function to perform',
+        'source' => array('path' => '0'),
+        'optional' => TRUE,
+	'default' => '0',
+       ),
+       array(
+        'name' => 'type',
+        'type' => 'string',
+        'description' => 'Content Type',
+        'source' => array('param' => 'type'),
+        'optional' => TRUE,
+        'default' => 'news_announcements',
+       ),
+       array(
+        'name' => 'tid',
+        'type' => 'int',
+        'description' => 'Content Type',
+        'source' => array('param' => 'tid'),
+        'optional' => TRUE,
+        'default' => '0',
+       ),
+       array(
+        'name' => 'order',
+        'type' => 'string',
+        'description' => 'Sorting Order',
+        'source' => array('param' => 'order'),
+        'optional' => TRUE,
+        'default' => 'DESC',
+       ),
+       array(
+        'name' => 'num',
+        'type' => 'int',
+        'description' => 'Number of records returned',
+        'source' => array('param' => 'num'),
+        'optional' => TRUE,
+        'default' => '0',
+       ),
+       array(
+        'name' => 'wc',
+        'type' => 'int',
+        'description' => 'Word counts for teaser field',
+        'source' => array('param' => 'wc'),
+        'optional' => TRUE,
+        'default' => '0',
+       ),
+     ),
+    ),
+  ),
+ );
+
+ return $api;
+}
+
+/**
+ * Callback function for custom endpoint
+ */
+
+function _cacd_jae_customnode_retrieve($fn, $type, $tid, $order, $num, $wc) {
+ // Check for incorrect values
+
+ $tid = intval($tid);
+ $num = intval($num);
+ $wc = intval($wc);
+
+ // default value
+ if(empty($type)) $type = 'news_announcements';
+
+ if(empty($order)) $order = 'DESC';
+ 
+ return cacd_jae_customnode_items($type, $tid, $order, $num, $wc);
+}
+
+/**
+ * Gets nodes
+ **/
+
+function cacd_jae_customnode_items($type, $tid, $order, $num, $wc) {
+
+ // create query
+ $query = db_select('node', 'n');
+ $query->join('node_revision', 'v', '(n.nid = v.nid) AND (n.vid = v.vid)');
+ $query->join('users', 'u', 'n.uid = u.uid');
+ $query->join('field_data_body', 'b', '((b.entity_type = \'node\') AND (b.entity_id = n.nid) AND (b.revision_id = n.vid))');
+ $query->join('field_data_field_announcement_type', 'a', '((a.entity_type = \'node\') AND (a.entity_id = n.nid) AND (a.revision_id = n.vid))');
+ $query->fields('n', array('nid','created', 'changed'));
+ $query->fields('v', array('timestamp', 'title'));
+ $query->addField('u', 'name', 'author');
+ $query->addField('b', 'body_value', 'teaser');
+ $query->addField('a', 'field_announcement_type_tid', 'tid');
+ $query->addField('n', 'title', 'path'); // this field will be replace with path ***
+
+
+ $query->condition('n.type', $type, '=');
+ if($tid != 0) $query->condition('a.field_announcement_type_tid', $tid, '=');
+
+ // order of result set
+ $query->orderBy('n.created', $order);
+
+ // number of records returned
+ if($num != 0)  $query->range(0, $num);
+
+ $items = $query->execute()->fetchAll();
+ foreach($items as $record) {
+   
+   $record->teaser = strip_tags(trim(str_replace('&nbsp;', '', $record->teaser)));
+
+   if($wc != 0) $record->teaser = string_excerpt($record->teaser, $wc);
+  
+   $record->path = '';
+   $record->path = $GLOBALS['base_url'].$GLOBALS['base_path'].drupal_lookup_path('alias', "node/".$record->nid);
+ } 
+
+ return $items;
+
+}
+
+function string_excerpt($string, $count) {
+ $words = explode(' ', $string);
+ if(count($words) > $count)
+ {
+  $words = array_slice($words, 0, $count);
+  $string = implode(' ', $words);
+ }
+
+ return $string;
+}

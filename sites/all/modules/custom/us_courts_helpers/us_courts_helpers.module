@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * Implements hook_menu_block_blocks().
+ */
+function us_courts_helpers_menu_block_blocks() {
+  // The array key is the block delta used by menu block.
+  return array(
+    'us_courts_menu_blocks_main_nav' => array(
+      'menu_name'   => 'main-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => '',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 2,
+      'expanded'    => 1,
+      'sort'        => 0,
+    ),
+    'us_courts_menu_blocks_side_nav' => array(
+      'menu_name'   => 'main-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => '',
+      'level'       => 2,
+      'follow'      => 0,
+      'depth'       => 2,
+      'expanded'    => 1,
+      'sort'        => 0,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+
+function us_courts_helpers_block_view_alter(&$data, $block) {
+  //Nullifying the subjects of our navigation blocks since
+  //Menu Block exports do not contain default subjects
+  //As well as Custom search blocks for Opinions, Forms, Local Rules, General Orders
+  
+  $no_sub_bids = array(
+    'menu_block-us_courts_menu_blocks_main_nav',
+    'menu_block-us_courts_menu_blocks_side_nav',
+    'custom_search_blocks-1',
+    'custom_search_blocks-2',
+    'custom_search_blocks-3',
+    'custom_search_blocks-4'
+  );
+  
+  if (in_array($block->bid, $no_sub_bids)) {
+    $data['subject'] = null;
+  }
+  
+  //Borrowed from Open Public
+  //We want to remove the subject for node blocks that have show title turned off
+  if( $block->module == 'nodeblock') {
+      $node = $data['content']['#node'];
+      if ((isset($node->language))
+         && isset($node->field_nb_show_title[$node->language][0]['value'])
+         && !$node->field_nb_show_title[$node->language][0]['value']) {
+        $data['subject'] = '';
+      }  
+    }
+
+}
+
+/**
+ * Implements hook_field_group_build_pre_render_alter().
+ */
+
+function us_courts_helpers_field_group_build_pre_render_alter(&$element) {
+  // Add the label for the Staff Information <div> Field Group
+  // Prepare variables.
+  $display = isset($element['#view_mode']);
+  $groups = array_keys($element['#groups']);
+  
+  if ($display) {
+    foreach (element_children($element) as $name) {
+      if (in_array($name, $groups)) {
+        if ($name == 'group_staff_info') {
+          $div_group_lbl = $element['#groups']['group_staff_info']->label;
+          $element[$name]['#prefix'] = $element[$name]['#prefix'] . '<h2 class="clearfix">' . $div_group_lbl . '</h2>';
+        }
+      }
+    }
+  }  
+}

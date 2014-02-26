@@ -1,0 +1,104 @@
+<?php
+
+function us_courts_buttons_theme($existing, $type, $theme, $path) {
+  return array(
+      'us_courts_btns_btn' => array(
+        'variables' => array('title' => NULL, 'link' => NULL, 'btn_class' => NULL, 'icon_img_path' => NULL),
+      ),
+  );
+}
+
+function theme_us_courts_btns_btn($title = NULL, $link = NULL, $btn_class = NULL, $icon_img_path = NULL) {
+  drupal_add_css(drupal_get_path('module', 'us_courts_buttons') . '/css/us-courts-btns.css');
+  
+  $output = l('<span class="usc-btn-icon"></span>' . $title, $link, array('html' => true, 'attributes' => array('class' => 'usc-btn' . ' ' . $btn_class)));
+
+  return $output;
+}
+
+/**
+ * Implements MODULE_block_info().
+ */
+function us_courts_buttons_block_info() {
+  $blocks['form'] = array(
+    'info' => t('US Courts Buttons: Form')
+  );
+  $blocks['lcl_rules_gen_ordrs'] = array(
+    'info' => t('US Courts Buttons: Local Rules & General Orders')
+  );
+
+  $blocks['court_staff_dir'] = array(
+    'info' => t('US Courts Buttons: Court Locations')
+  );
+  $blocks['bkrpt_basics'] = array(
+    'info' => t('US Courts Buttons: Understanding Bankruptcy')
+  );
+  
+  $blocks['jud_seminar_dis'] = array(
+    'info' => t('US Courts Buttons: Judicial Seminar Disclosure')
+  );
+  
+  $blocks['docket'] = array(
+    'info' => t('US Courts Buttons: Docket')
+  );
+  
+  $blocks['opinions'] = array(
+    'info' => t('US Courts Buttons: Opinions')
+  );
+    
+  
+  return $blocks;
+}
+
+function us_courts_buttons_preprocess_node(&$vars) {
+  if ($vars['node']->type == 'custom_button') {
+  }
+}
+
+/**
+ * Implements MODULE_preprocess_HOOK().
+ */
+
+function us_courts_buttons_preprocess_field(&$vars) {
+  if ($vars['element']['#field_name'] == 'field_btn_icon' || $vars['element']['#field_name'] == 'field_btn_link') {
+  }
+}
+
+function us_courts_buttons_block_view_alter(&$data, $block) {
+ //Removing title from all Custom Button Node Blocks
+ if(isset($data) && $block->module == 'nodeblock') {
+  $node = $data['content']['#node'];
+  if ($node->type == 'custom_button') {
+    $data['subject'] = '';
+  }
+ }
+}
+
+function us_courts_buttons_block_view($delta = '') {
+  $block = array();
+  
+  switch ($delta) {
+    case 'form':
+      $block['content'] = theme_us_courts_btns_btn('Forms', 'forms/', 'usc-form-btn');
+      break;
+    case 'lcl_rules_gen_ordrs':
+      $block['content'] = theme_us_courts_btns_btn('Local Rules & General Orders', 'court-info/local-rules-and-orders', 'usc-lcl-rules-btn');
+      break;
+    case 'court_staff_dir':
+      $block['content'] = theme_us_courts_btns_btn('Court Locations', 'court-info/court-locations/', 'usc-staff-dir-btn');
+      break;
+    case 'bkrpt_basics':
+      $block['content'] = theme_us_courts_btns_btn('Understanding Bankruptcy', 'understanding-bankruptcy/', 'usc-form-btn');
+      break;
+    case 'jud_seminar_dis':
+      $block['content'] = theme_us_courts_btns_btn('Judicial Seminar Disclosure', 'judicial-seminar-disclosure/', 'usc-staff-dir-btn');
+      break;
+    case 'docket':
+      $block['content'] = theme_us_courts_btns_btn('Docket', 'docket/', 'usc-understanding-btn');
+      break;
+    case 'opinions':
+      $block['content'] = theme_us_courts_btns_btn('Opinions', 'judges-info/opinions/', 'usc-opinions-btn');
+      break;
+  }
+  return $block;
+}

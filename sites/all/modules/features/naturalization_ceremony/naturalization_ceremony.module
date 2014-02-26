@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Naturalization Ceremony feature.
+ */
+
+include_once 'naturalization_ceremony.features.inc';

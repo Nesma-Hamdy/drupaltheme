@@ -1,0 +1,87 @@
+; US Courts District .info file
+; Theme dependant on OHO Basic
+
+base theme = oho_basic
+
+name = US Courts District
+description = US Courts District Theme
+version = 1.0
+core = 7.x
+screenshot = theme-screenshot.png
+
+; Theme settings
+; -------------------------
+; Default theme settings
+
+settings[pacer_link] = https://pcl.uscourts.gov/search
+settings[cmecf_link] = http://www.pacer.gov/psco/cgi-bin/links.pl
+settings[wb_one] = E-Juror|http://www.uscourts.gov/FederalCourts/JuryService/eJuror.aspx
+settings[default_welcome_img] = 1
+settings[toggle_seal] = 1
+settings[default_seal_img] = 1
+settings[toggle_welcome_img] = 1
+settings[welcome_txt] = <h2><span class="fp-welcome-title">Welcome</span></h2><p>Welcome to the official website for the United States District Court for the XXXX District of XXXXXXXXX. We have offices in XXXX, XXXX, and XXXX.</p><p class="fp-welcome-link"><a href="#">Hours and directions &raquo;</a></p>
+settings[court_title] = United States District Court
+
+; Regions
+; -------------------------
+; Content, help, page_top, and page_bottom are mandatory
+
+regions[user_type_menu] = User Type Menu
+regions[utility_links] = Utility Links
+regions[header] = Header
+regions[search_box] = Search Box
+regions[navigation] = Navigation
+regions[slideshow] = Slideshow
+regions[alert] = High Level Alert
+regions[sidebar_first] = Left sidebar
+regions[action_buttons] = Call to Action Buttons
+regions[content_top] = Content Top
+regions[content] = Content
+regions[content_bottom] = Content Bottom
+regions[sidebar_second] = Right sidebar
+regions[help] = Help
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+regions[highlighted] = Highlighted
+regions[sub_content_left] = Left Sub Content Column
+regions[sub_content_center] = Center Sub Content Column
+regions[sub_content_right] = Right Sub Content Column
+regions[footer_top] = Footer Top
+regions[footer_first] = Footer First
+regions[footer_second] = Footer Second
+regions[footer_third] = Footer Third
+regions[footer_fourth] = Footer Fourth
+regions[footer_bottom] = Footer Bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+
+; disabled features, uncomment to activate
+; features[] = secondary_links
+
+stylesheets[all][] = css/visual-editor.css
+stylesheets[all][] = css/main.css
+; stylesheets[print][] = css/print.css
+
+;CACD Custom Style Sheet
+stylesheets[all][] = css/custom.css
+stylesheets[all][] = css/font-awesome.min.css
+
+; Set the conditional stylesheets that are processed by IE. 
+; Made possible by Conditional Stylesheets Module (http://drupal.org/project/conditional_styles)
+stylesheets-conditional[IE 6][all][] = css/ie6.css
+stylesheets-conditional[IE 7][all][] = css/ie7.css
+stylesheets-conditional[IE 8][all][] = css/ie8.css
+
+scripts[] = js/scripts.js
+scripts[] = js/jquery.cookie.js
+scripts[] = js/ios-orientationchange-fix.js
+
+php = 4.3.3

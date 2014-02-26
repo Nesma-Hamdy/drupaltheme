@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the US Courts Checklist feature.
+ */
+
+include_once('us_courts_checklist.features.inc');
