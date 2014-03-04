@@ -3,6 +3,12 @@ sites/*/settings*.php
 
 # Ignore paths that contain user-generated content.
 #sites/*/files
-#sites/default/private*
+sites/default/private*
 sites/default/files/css/*
 sites/default/files/js/*
+
+.DS_Store
+sites/.DS_Store
+sites/all/.DS_Store
+sites/all/modules/.DS_Store
+sites/all/modules/contrib/.DS_Store
